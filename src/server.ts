@@ -2,7 +2,6 @@ const express = require('express');
 import { Request, Response } from "express";
 import { abi } from "./abi"
 import { publicClient } from "./client";
-import { Address } from "viem";
 
 const app = express();
 
@@ -17,19 +16,18 @@ app.get('/', async (req:Request, res: Response) => {
         const result = await checkWallet(address as string)
         if(result != 0x0000000000000000000000000000000000000000){
             res.status(200).send({ "data": { "result": true } })
-        }else {
-            res.status(404).send({
-                "error": {
-                    "code": 0,
-                    "message": `error message: User not found`
-                 },
-                 "data": {
-                     "result": false
-                 }
-            })
         }
     } catch (error) {
-        res.send({ "error": error})
+        // res.send({ "error": error})
+        res.status(404).send({
+            "error": {
+                "code": 0,
+                "message": `error message: ${error}`
+             },
+             "data": {
+                 "result": false
+             }
+        })
     }
 });
 
@@ -39,8 +37,8 @@ const checkWallet = async (address: string) => {
         abi,
         functionName: 'addressToContract',
         args: [`${address}`]
-      })
+      });
       return result;
-}
+    }
 
 app.listen(3000)
