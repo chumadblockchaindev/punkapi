@@ -24,20 +24,18 @@ app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (result != 0x0000000000000000000000000000000000000000) {
             res.status(200).send({ "data": { "result": true } });
         }
-        else {
-            res.status(404).send({
-                "error": {
-                    "code": 0,
-                    "message": `error message: User not found`
-                },
-                "data": {
-                    "result": false
-                }
-            });
-        }
     }
     catch (error) {
-        res.send({ "error": error });
+        // res.send({ "error": error})
+        res.status(404).send({
+            "error": {
+                "code": 0,
+                "message": `error message: ${error}`
+            },
+            "data": {
+                "result": false
+            }
+        });
     }
 }));
 const checkWallet = (address) => __awaiter(void 0, void 0, void 0, function* () {
@@ -49,4 +47,4 @@ const checkWallet = (address) => __awaiter(void 0, void 0, void 0, function* () 
     });
     return result;
 });
-app.listen(8080);
+app.listen(3000);
